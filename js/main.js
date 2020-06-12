@@ -12,7 +12,7 @@ var IMG_AVATAR = [
   'img/avatars/user08.png'
 ];
 var TITLE_ARR = ['Заголовок1', 'Заголовок2', 'Заголовок3'];
-var ADDRESS_ARR = ['300', '400', '600'];
+var ADDRESS_ARR = ['адрес 300', 'адрес 400', 'адрес 600'];
 var PRICE_ARR = ['800 руб', '1000 руб', '2000 руб'];
 var TYPE_ARR = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS_ARR = ['1', '2', '3'];
@@ -61,7 +61,7 @@ for (var i = 0; i < NUMBER_OBJ; i++) {
       photos: PHOTOS_ARR[getRandomInRange(0, PHOTOS_ARR.length - 1)],
     },
     location: {
-      x: getRandomInRange(0, 1200), //х - ограничено размерами блока
+      x: getRandomInRange(0, 1000), // х - ограничено размерами блока
       y: getRandomInRange(130, 630) //  y - от 130 до 630
     }
   });
@@ -81,17 +81,17 @@ var renderAdvert = function () {
   mapElement.querySelector('.popup__features').textContent = adverts[i].offer.features;
   mapElement.querySelector('.popup__description').textContent = adverts[i].offer.desccription;
   mapElement.querySelector('.popup__photo').src = adverts[i].offer.photos;
-  //mapElement.querySelector('.map__card').style.left = adverts[i].location.x;
-  //mapElement.querySelector('.map__card').style.top = adverts[i].location.y;
+  // mapPin.querySelector('.map__pin').style.left = adverts[i].location.x + 'px';
+  // mapPin.querySelector('.map__pin').style.top = adverts[i].location.y + 'px';
 
   return mapElement;
 };
 
 // создаем фрагмент дома, который будет добавлять
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < adverts.length; i++) {
+for (var j = 0; j < adverts.length; j++) {
   fragment.appendChild(renderAdvert(adverts[i]));
 }
 mapListElement.appendChild(fragment);
 
-document.querySelector('.map').classList.remove('map--faded')
+document.querySelector('.map').classList.remove('map--faded');
