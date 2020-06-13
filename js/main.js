@@ -1,5 +1,7 @@
 'use strict';
 
+document.querySelector('.map').classList.remove('map--faded');
+
 var NUMBER_OBJ = 8;
 var IMG_AVATAR = [
   'img/avatars/user01.png',
@@ -30,9 +32,12 @@ var PHOTOS_ARR = [
 // создаем переменную с элементом, куда копировать
 var mapListElement = document.querySelector('.map__pins');
 // создаем переменную с шаблоном, который копировать
-var cardTemplate = document.querySelector('#card')
+/* var cardTemplate = document.querySelector('#card')
     .content
-    .querySelector('.map__card');
+    .querySelector('.map__card');*/
+var pinTemplate = document.querySelector('#pin')
+    .content
+    .querySelector('.map__pin');
 
 // функиция вызова рандомных значений
 var getRandomInRange = function (min, max) {
@@ -61,37 +66,27 @@ for (var i = 0; i < NUMBER_OBJ; i++) {
       photos: PHOTOS_ARR[getRandomInRange(0, PHOTOS_ARR.length - 1)],
     },
     location: {
-      x: getRandomInRange(0, 1000), // х - ограничено размерами блока
+      x: getRandomInRange(0, 1200), // х - ограничено размерами блока
       y: getRandomInRange(130, 630) //  y - от 130 до 630
     }
   });
 }
 
-// функция отрисовки объектов
-var renderAdvert = function () {
-  var mapElement = cardTemplate.cloneNode(true);
+// функция отрисовки меток
+var renderPin = function (advert) {
+  var pinElement = pinTemplate.cloneNode(true);
 
-  mapElement.querySelector('.popup__avatar').src = adverts[i].author.avatar;
-  mapElement.querySelector('.popup__title').alt = adverts[i].offer.title;
-  mapElement.querySelector('.popup__text--address').textContent = adverts[i].offer.address;
-  mapElement.querySelector('.popup__text--price').textContent = adverts[i].offer.price;
-  mapElement.querySelector('.popup__type').textContent = adverts[i].offer.type;
-  mapElement.querySelector('.popup__text--capacity').textContent = adverts[i].offer.rooms + ' комнаты ' + 'для ' + adverts[i].offer.guests + ' гостей';
-  mapElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + adverts[i].offer.checkin + ', и выезд до ' + adverts[i].offer.checkout;
-  mapElement.querySelector('.popup__features').textContent = adverts[i].offer.features;
-  mapElement.querySelector('.popup__description').textContent = adverts[i].offer.desccription;
-  mapElement.querySelector('.popup__photo').src = adverts[i].offer.photos;
-  // mapPin.querySelector('.map__pin').style.left = adverts[i].location.x + 'px';
-  // mapPin.querySelector('.map__pin').style.top = adverts[i].location.y + 'px';
+  pinElement.querySelector('img').src = advert.offer.photos;
+  pinElement.querySelector('img').alt = advert.offer.title;
+  pinElement.style.left = advert.location.x + 'px';
+  pinElement.style.top = advert.location.y + 'px';
 
-  return mapElement;
+  return pinElement;
 };
 
 // создаем фрагмент дома, который будет добавлять
 var fragment = document.createDocumentFragment();
 for (var j = 0; j < adverts.length; j++) {
-  fragment.appendChild(renderAdvert(adverts[i]));
+  fragment.appendChild(renderPin(adverts[j]));
 }
 mapListElement.appendChild(fragment);
-
-document.querySelector('.map').classList.remove('map--faded');
