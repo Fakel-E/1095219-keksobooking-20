@@ -88,3 +88,5 @@ for (var j = 0; j < adverts.length; j++) {
 mapListElement.appendChild(fragmentPin);
 
 mapList.classList.remove('map--faded');
+
+
