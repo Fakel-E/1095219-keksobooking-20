@@ -98,6 +98,12 @@ var renderPin = function (pin) {
 
   return pinElement;
 };
+// функция создания элементов
+var makeElement = function (tagName, className) {
+  var element = document.createElement(tagName);
+  element.classList.add(className);
+  return element;
+};
 
 // функция отрисовки объектов
 var renderAdvert = function (advert) {
@@ -118,19 +124,36 @@ var renderAdvert = function (advert) {
   } // перевести условия в функцию
   mapElement.querySelector('.popup__text--capacity').textContent = advert.offer.rooms + ' комнаты ' + 'для ' + advert.offer.guests + ' гостей';
   mapElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + advert.offer.checkin + ', и выезд до ' + advert.offer.checkout;
+  var liElems = mapElement.querySelector('.popup__features');
+  var liElem = mapElement.querySelectorAll('.popup__feature');
+  for (var p = 0; p < liElem.length; p++) {
+    liElem[p].parentNode.removeChild(liElem[p]);
+  }
   for (var k = 0; k < advert.offer.features.length; k++) {
-    if (advert.offer.features[k] !== 'wifi') {
-      mapElement.querySelector('.popup__feature--wifi').remove('popup__feature--wifi');
-    } if (advert.offer.features[k] !== 'dishwasher') {
-      mapElement.querySelector('.popup__feature--dishwasher').remove('popup__feature--dishwasher');
-    } if (advert.offer.features[k] !== 'parking') {
-      mapElement.querySelector('.popup__feature--parking').remove('popup__feature--parking');
-    } if (advert.offer.features[k] !== 'washer') {
-      mapElement.querySelector('.popup__feature--washer').remove('popup__feature--washer');
-    } if (advert.offer.features[k] !== 'elevator') {
-      mapElement.querySelector('.popup__feature--elevator').remove('popup__feature--elevator');
-    } if (advert.offer.features[k] !== 'conditioner') {
-      mapElement.querySelector('.popup__feature--conditioner').remove('popup__feature--conditioner');
+    if (advert.offer.features[k] === 'wifi') {
+      var wifi = makeElement('li', 'popup__feature');
+      wifi.classList.add('popup__feature--wifi');
+      liElems.appendChild(wifi);
+    } else if (advert.offer.features[k] === 'dishwasher') {
+      var dishwasher = makeElement('li', 'popup__feature');
+      dishwasher.classList.add('popup__feature--dishwasher');
+      liElems.appendChild(dishwasher);
+    } else if (advert.offer.features[k] === 'parking') {
+      var parking = makeElement('li', 'popup__feature');
+      parking.classList.add('popup__feature--parking');
+      liElems.appendChild(parking);
+    } else if (advert.offer.features[k] === 'washer') {
+      var washer = makeElement('li', 'popup__feature');
+      washer.classList.add('popup__feature--washer');
+      liElems.appendChild(washer);
+    } else if (advert.offer.features[k] === 'elevator') {
+      var elevator = makeElement('li', 'popup__feature');
+      elevator.classList.add('popup__feature--elevator');
+      liElems.appendChild(elevator);
+    } else if (advert.offer.features[k] === 'conditioner') {
+      var conditioner = makeElement('li', 'popup__feature');
+      conditioner.classList.add('popup__feature--conditioner');
+      liElems.appendChild(conditioner);
     }
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
@@ -147,5 +170,6 @@ mapListElement.appendChild(fragmentPin);
 // создаем фрагмент дома, который будет добавлять
 var filter = document.querySelector('.map__filters-container');
 mapList.insertBefore(renderAdvert(adverts[0]), filter);
+
 // открываем карту
 mapList.classList.remove('map--faded');
