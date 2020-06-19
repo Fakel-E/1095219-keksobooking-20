@@ -125,36 +125,26 @@ var renderAdvert = function (advert) {
   mapElement.querySelector('.popup__text--capacity').textContent = advert.offer.rooms + ' комнаты ' + 'для ' + advert.offer.guests + ' гостей';
   mapElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + advert.offer.checkin + ', и выезд до ' + advert.offer.checkout;
   var liElems = mapElement.querySelector('.popup__features');
-  var liElem = mapElement.querySelectorAll('.popup__feature');
-  for (var p = 0; p < liElem.length; p++) {
-    liElem[p].parentNode.removeChild(liElem[p]);
+  var featureMass = mapElement.querySelectorAll('.popup__feature');
+  for (var p = 0; p < featureMass.length; p++) {
+    featureMass[p].parentNode.removeChild(featureMass[p]);
   }
   for (var k = 0; k < advert.offer.features.length; k++) {
+    var featuresElement = makeElement('li', 'popup__feature');
     if (advert.offer.features[k] === 'wifi') {
-      var wifi = makeElement('li', 'popup__feature');
-      wifi.classList.add('popup__feature--wifi');
-      liElems.appendChild(wifi);
+      featuresElement.classList.add('popup__feature--wifi');
     } else if (advert.offer.features[k] === 'dishwasher') {
-      var dishwasher = makeElement('li', 'popup__feature');
-      dishwasher.classList.add('popup__feature--dishwasher');
-      liElems.appendChild(dishwasher);
+      featuresElement.classList.add('popup__feature--dishwasher');
     } else if (advert.offer.features[k] === 'parking') {
-      var parking = makeElement('li', 'popup__feature');
-      parking.classList.add('popup__feature--parking');
-      liElems.appendChild(parking);
+      featuresElement.classList.add('popup__feature--parking');
     } else if (advert.offer.features[k] === 'washer') {
-      var washer = makeElement('li', 'popup__feature');
-      washer.classList.add('popup__feature--washer');
-      liElems.appendChild(washer);
+      featuresElement.classList.add('popup__feature--washer');
     } else if (advert.offer.features[k] === 'elevator') {
-      var elevator = makeElement('li', 'popup__feature');
-      elevator.classList.add('popup__feature--elevator');
-      liElems.appendChild(elevator);
+      featuresElement.classList.add('popup__feature--elevator');
     } else if (advert.offer.features[k] === 'conditioner') {
-      var conditioner = makeElement('li', 'popup__feature');
-      conditioner.classList.add('popup__feature--conditioner');
-      liElems.appendChild(conditioner);
+      featuresElement.classList.add('popup__feature--conditioner');
     }
+    liElems.appendChild(featuresElement);
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
   mapElement.querySelector('.popup__photo').src = advert.offer.photos;
