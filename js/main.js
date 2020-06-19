@@ -1,20 +1,22 @@
 'use strict';
 
-var NUMBER_OBJ = 8;
-var NUMBER_X_MIN = 100;
-var NUMBER_X_MAX = 1100;
-var NUMBER_Y_MIN = 130;
-var NUMBER_Y_MAX = 630;
+var NumberConst = {
+  OBJ: 8,
+  X_MIN: 100,
+  X_MAX: 1100,
+  Y_MIN: 130,
+  Y_MAX: 630,
+  PRICE_MIN: 0,
+  PRICE_MAX: 1000000,
+  ROOM_GUEST_MIN: 1,
+  ROOM_GUEST_MAX: 3,
+  INDEX_MIN: 0
+};
 var TITLE_ARR = ['Заголовок1', 'Заголовок2', 'Заголовок3'];
-var PRICE_MIN = 0;
-var PRICE_MAX = 1000000;
 var TYPE_ARR = ['palace', 'flat', 'house', 'bungalo'];
-var ROOM_GUEST_MIN = 1;
-var ROOM_GUEST_MAX = 3;
 var CHECKIN_ARR = ['12:00', '13:00', '14:00'];
 var CHECKOUT_ARR = ['12:00', '13:00', '14:00'];
 var FEATURES_ARR = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var INDEX_MIN = 0;
 var DESCCRIPTION_ARR = ['описание1', 'описание2', 'описание3'];
 var PHOTOS_ARR = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -41,7 +43,7 @@ var getRandomInRange = function (min, max) {
 var getRandomElement = function (array) {
   return array[getRandomInRange(0, array.length - 1)];
 };
-// функция рандомной сортировки массива
+// функция рандомной сортировки + изменения массива
 var mixArray = function (massive) {
   for (var i = massive.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -49,20 +51,16 @@ var mixArray = function (massive) {
     massive[i] = massive[j];
     massive[j] = temp;
   }
+  massive.splice(massive[0], getRandomInRange(NumberConst.INDEX_MIN, massive.length - 1));
   return massive;
-};
-// функция изменения массива
-var getRandomArr = function (arr) {
-  mixArray(arr);
-  return arr.splice(getRandomInRange(INDEX_MIN, arr.length), getRandomInRange(INDEX_MIN, arr.length - 1));
 };
 
 // создаём массив объявлений с уникальными характеристиками
 var adverts = [];
 
-for (var i = 1; i <= NUMBER_OBJ; i++) {
-  var locationX = getRandomInRange(NUMBER_X_MIN, NUMBER_X_MAX);
-  var locationY = getRandomInRange(NUMBER_Y_MIN, NUMBER_Y_MAX);
+for (var i = 1; i <= NumberConst.OBJ; i++) {
+  var locationX = getRandomInRange(NumberConst.X_MIN, NumberConst.X_MAX);
+  var locationY = getRandomInRange(NumberConst.Y_MIN, NumberConst.Y_MAX);
   adverts.push({
     author: {
       avatar: 'img/avatars/user0' + i + '.png'
@@ -70,13 +68,13 @@ for (var i = 1; i <= NUMBER_OBJ; i++) {
     offer: {
       title: getRandomElement(TITLE_ARR),
       address: locationX + ', ' + locationY,
-      price: getRandomInRange(PRICE_MIN, PRICE_MAX),
+      price: getRandomInRange(NumberConst.PRICE_MIN, NumberConst.PRICE_MAX),
       type: getRandomElement(TYPE_ARR),
-      rooms: getRandomInRange(ROOM_GUEST_MIN, ROOM_GUEST_MAX),
-      guests: getRandomInRange(ROOM_GUEST_MIN, ROOM_GUEST_MAX),
+      rooms: getRandomInRange(NumberConst.ROOM_GUEST_MIN, NumberConst.ROOM_GUEST_MAX),
+      guests: getRandomInRange(NumberConst.ROOM_GUEST_MIN, NumberConst.ROOM_GUEST_MAX),
       checkin: getRandomElement(CHECKIN_ARR),
       checkout: getRandomElement(CHECKOUT_ARR),
-      features: getRandomArr(FEATURES_ARR),
+      features: mixArray(FEATURES_ARR),
       desccription: getRandomElement(DESCCRIPTION_ARR),
       photos: getRandomElement(PHOTOS_ARR),
     },
@@ -131,19 +129,7 @@ var renderAdvert = function (advert) {
   }
   for (var k = 0; k < advert.offer.features.length; k++) {
     var featuresElement = makeElement('li', 'popup__feature');
-    if (advert.offer.features[k] === 'wifi') {
-      featuresElement.classList.add('popup__feature--wifi');
-    } else if (advert.offer.features[k] === 'dishwasher') {
-      featuresElement.classList.add('popup__feature--dishwasher');
-    } else if (advert.offer.features[k] === 'parking') {
-      featuresElement.classList.add('popup__feature--parking');
-    } else if (advert.offer.features[k] === 'washer') {
-      featuresElement.classList.add('popup__feature--washer');
-    } else if (advert.offer.features[k] === 'elevator') {
-      featuresElement.classList.add('popup__feature--elevator');
-    } else if (advert.offer.features[k] === 'conditioner') {
-      featuresElement.classList.add('popup__feature--conditioner');
-    }
+    featuresElement.classList.add('popup__feature--' + advert.offer.features[k]);
     liElems.appendChild(featuresElement);
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
