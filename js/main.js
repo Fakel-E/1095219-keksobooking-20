@@ -51,7 +51,7 @@ var mixArray = function (massive) {
     massive[i] = massive[j];
     massive[j] = temp;
   }
-  massive.splice(massive[0], getRandomInRange(NumberConst.INDEX_MIN, massive.length - 1));
+  massive.splice(NumberConst.INDEX_MIN, getRandomInRange(NumberConst.INDEX_MIN, massive.length - 1));
   return massive;
 };
 
