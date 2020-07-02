@@ -1,17 +1,25 @@
 'use strict';
 
-var NumberConst = {
-  OBJ: 8,
+var NUMBER_OBJ = 8;
+var Price = {
+  MIN: 0,
+  MAX: 1000000
+};
+var Position = {
   X_MIN: 100,
   X_MAX: 1100,
   Y_MIN: 130,
-  Y_MAX: 630,
-  PRICE_MIN: 0,
-  PRICE_MAX: 1000000,
-  ROOM_GUEST_MIN: 1,
-  ROOM_GUEST_MAX: 3,
-  INDEX_MIN: 0
+  Y_MAX: 630
 };
+var Room = {
+  MIN: 1,
+  MAX: 3
+};
+var Guest = {
+  MIN: 1,
+  MAX: 3
+};
+var INDEX_MIN = 0;
 var TITLE_ARR = ['Заголовок1', 'Заголовок2', 'Заголовок3'];
 var TYPE_ARR = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKIN_ARR = ['12:00', '13:00', '14:00'];
@@ -23,6 +31,7 @@ var PHOTOS_ARR = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
+var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
 
 // создаем переменную с элементом, куда копировать
 var mapListElement = document.querySelector('.map__pins');
@@ -51,16 +60,16 @@ var mixArray = function (massive) {
     massive[i] = massive[j];
     massive[j] = temp;
   }
-  massive.splice(NumberConst.INDEX_MIN, getRandomInRange(NumberConst.INDEX_MIN, massive.length - 1));
+  massive.splice(INDEX_MIN, getRandomInRange(INDEX_MIN, massive.length - 1));
   return massive;
 };
 
 // создаём массив объявлений с уникальными характеристиками
 var adverts = [];
 
-for (var i = 1; i <= NumberConst.OBJ; i++) {
-  var locationX = getRandomInRange(NumberConst.X_MIN, NumberConst.X_MAX);
-  var locationY = getRandomInRange(NumberConst.Y_MIN, NumberConst.Y_MAX);
+for (var i = 1; i <= NUMBER_OBJ; i++) {
+  var locationX = getRandomInRange(Position.X_MIN, Position.X_MAX);
+  var locationY = getRandomInRange(Position.Y_MIN, Position.Y_MAX);
   adverts.push({
     author: {
       avatar: 'img/avatars/user0' + i + '.png'
@@ -68,10 +77,10 @@ for (var i = 1; i <= NumberConst.OBJ; i++) {
     offer: {
       title: getRandomElement(TITLE_ARR),
       address: locationX + ', ' + locationY,
-      price: getRandomInRange(NumberConst.PRICE_MIN, NumberConst.PRICE_MAX),
+      price: getRandomInRange(Price.MIN, Price.MAX),
       type: getRandomElement(TYPE_ARR),
-      rooms: getRandomInRange(NumberConst.ROOM_GUEST_MIN, NumberConst.ROOM_GUEST_MAX),
-      guests: getRandomInRange(NumberConst.ROOM_GUEST_MIN, NumberConst.ROOM_GUEST_MAX),
+      rooms: getRandomInRange(Room.MIN, Room.MAX),
+      guests: getRandomInRange(Guest.MIN, Guest.MAX),
       checkin: getRandomElement(CHECKIN_ARR),
       checkout: getRandomElement(CHECKOUT_ARR),
       features: mixArray(FEATURES_ARR),
@@ -142,10 +151,99 @@ var fragmentPin = document.createDocumentFragment();
 for (var j = 0; j < adverts.length; j++) {
   fragmentPin.appendChild(renderPin(adverts[j]));
 }
-mapListElement.appendChild(fragmentPin);
-// создаем фрагмент дома, который будет добавлять
+
 var filter = document.querySelector('.map__filters-container');
 mapList.insertBefore(renderAdvert(adverts[0]), filter);
 
-// открываем карту
-mapList.classList.remove('map--faded');
+// Находим элементы формы
+var mapFilters = document.querySelectorAll('.map__filter');
+var formHeader = document.querySelector('.ad-form-header');
+var formElements = document.querySelectorAll('.ad-form__element');
+var houseFeature = document.querySelector('#housing-features');
+var formMain = document.querySelector('.ad-form');
+// Добавляем disabled на все элементы формы
+var addShutdown = function (arr) {
+  for (var w = 0; w < arr.length; w++) {
+    arr[w].setAttribute('disabled', 'disabled');
+  }
+};
+addShutdown([houseFeature]);
+addShutdown([formHeader]);
+addShutdown(mapFilters);
+addShutdown(formElements);
+// ! завершили добавление disabled
+// Функция активации карты
+var activateMap = function () {
+  houseFeature.removeAttribute('disabled');
+  formHeader.removeAttribute('disabled');
+  for (var e = 0; e < mapFilters.length; e++) {
+    mapFilters[e].removeAttribute('disabled');
+  }
+  for (var r = 0; r < formElements.length; r++) {
+    formElements[r].removeAttribute('disabled');
+  }
+  mapList.classList.remove('map--faded');
+  formMain.classList.remove('ad-form--disabled');
+  mapListElement.appendChild(fragmentPin);
+};
+
+var mainButton = document.querySelector('.map__pin--main');
+var formAddress = document.querySelector('#address');
+
+var findAdress = function (coordinateElem) {
+  return parseInt(coordinateElem.style.left, 10) + ' ' + parseInt(coordinateElem.style.top, 10);
+};
+formAddress.value = findAdress(mainButton);
+// Активируем карту
+mainButton.addEventListener('mousedown', function (evt) {
+  // открываем карту по клику
+  if (evt.which === 1) {
+    activateMap();
+  }
+});
+
+mainButton.addEventListener('keydown', function (evt) {
+  // открытие по Enter
+  if (evt.key === 'Enter') {
+    activateMap();
+  }
+});
+
+// Найдём инпуты для гостей и комнат
+var selectRoom = document.querySelector('#room_number');
+var selectGuest = document.querySelector('#capacity');
+// Проверяем сразу при загрузке страницы
+if (selectRoom.value < selectGuest.value) {
+  selectRoom.setCustomValidity(NOT_VALID_REPORT);
+}
+// Слушаем изменнения в комнатах
+selectRoom.addEventListener('change', function () {
+  var roomsCount = Number(selectRoom.value);
+  var guestCount = Number(selectGuest.value);
+  if (roomsCount === 1) {
+    selectGuest.value = selectRoom.value;
+  } else if (roomsCount === 2 && roomsCount < guestCount) {
+    selectRoom.setCustomValidity(NOT_VALID_REPORT);
+  } else if (roomsCount === 100) {
+    selectGuest.value = 0;
+  } else {
+    selectGuest.setCustomValidity('');
+  }
+  if (guestCount > roomsCount) {
+    selectRoom.setCustomValidity(NOT_VALID_REPORT);
+  } else {
+    selectRoom.setCustomValidity('');
+  }
+});
+// Слушаем изменнения в гостях
+selectGuest.addEventListener('change', function () {
+  var roomsCount = Number(selectRoom.value);
+  var guestCount = Number(selectGuest.value);
+  if (guestCount > roomsCount) {
+    selectGuest.setCustomValidity(NOT_VALID_REPORT);
+  } else if (roomsCount === 100 && guestCount !== 0) {
+    selectGuest.setCustomValidity('Выбранное количество комнат не для гостей');
+  } else {
+    selectGuest.setCustomValidity('');
+  }
+});
