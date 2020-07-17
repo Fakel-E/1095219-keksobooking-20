@@ -43,27 +43,15 @@
     return parseInt(coordinateElem.style.left, 10) + ' ' + parseInt(coordinateElem.style.top, 10);
   };
 
-  // функция отрисовки меток
-  var renderPin = function (pin) {
-    var pinElement = window.const.pinTemplate.cloneNode(true);
+  var activateMap = function (house, head, filter, elements, map, form, elem) {
+    cancelShutdown([house]);
+    cancelShutdown([head]);
+    cancelShutdown(filter);
+    cancelShutdown(elements);
 
-    pinElement.querySelector('img').src = pin.author.avatar;
-    pinElement.querySelector('img').alt = 'Какой-то автор';
-    pinElement.style.left = pin.location.x + 'px';
-    pinElement.style.top = pin.location.y + 'px';
-
-    return pinElement;
-  };
-
-  var activateMap = function () {
-    window.util.cancelShutdown([window.const.houseFeature]);
-    window.util.cancelShutdown([window.const.formHeader]);
-    window.util.cancelShutdown(window.const.mapFilters);
-    window.util.cancelShutdown(window.const.formElements);
-
-    window.const.mapList.classList.remove('map--faded');
-    window.const.formMain.classList.remove('ad-form--disabled');
-    window.const.mapListElement.appendChild(window.const.fragmentPin);
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
+    elem.appendChild(window.const.fragmentPin);
   };
 
   window.util = {
@@ -73,8 +61,6 @@
     makeElement: makeElement,
     addShutdown: addShutdown,
     findAdress: findAdress,
-    cancelShutdown: cancelShutdown,
-    renderPin: renderPin,
     activateMap: activateMap
   };
 }());

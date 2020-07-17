@@ -34,24 +34,6 @@
   ];
   var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
 
-  // создаем переменную с элементом, куда копировать
-  var mapListElement = document.querySelector('.map__pins');
-  var mapList = document.querySelector('.map');
-  // создаем переменные с шаблоном, которые копировать
-  var pinTemplate = document.querySelector('#pin') // метка
-      .content
-      .querySelector('.map__pin');
-  var cardTemplate = document.querySelector('#card') // объявление
-      .content
-      .querySelector('.map__card');
-
-  // Находим элементы формы
-  var mapFilters = document.querySelectorAll('.map__filter');
-  var formHeader = document.querySelector('.ad-form-header');
-  var formElements = document.querySelectorAll('.ad-form__element');
-  var houseFeature = document.querySelector('#housing-features');
-  var formMain = document.querySelector('.ad-form');
-
   var fragmentPin = document.createDocumentFragment();
 
   window.const = {
@@ -69,15 +51,6 @@
     DESCCRIPTION_ARR: DESCCRIPTION_ARR,
     PHOTOS_ARR: PHOTOS_ARR,
     NOT_VALID_REPORT: NOT_VALID_REPORT,
-    mapListElement: mapListElement,
-    mapList: mapList,
-    pinTemplate: pinTemplate,
-    cardTemplate: cardTemplate,
-    mapFilters: mapFilters,
-    formHeader: formHeader,
-    formElements: formElements,
-    houseFeature: houseFeature,
-    formMain: formMain,
     fragmentPin: fragmentPin
   };
 })();

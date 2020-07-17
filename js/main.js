@@ -1,5 +1,16 @@
 'use strict';
 
+// создаем переменную с элементом, куда копировать
+
+var mapList = document.querySelector('.map');
+// создаем переменные с шаблоном, которые копировать
+var pinTemplate = document.querySelector('#pin') // метка
+    .content
+    .querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card') // объявление
+    .content
+    .querySelector('.map__card');
+
 // создаём массив объявлений с уникальными характеристиками
 var adverts = [];
 
@@ -30,9 +41,21 @@ for (var i = 1; i <= window.const.NUMBER_OBJ; i++) {
   });
 }
 
+// функция отрисовки меток
+var renderPin = function (pin) {
+  var pinElement = pinTemplate.cloneNode(true);
+
+  pinElement.querySelector('img').src = pin.author.avatar;
+  pinElement.querySelector('img').alt = 'Какой-то автор';
+  pinElement.style.left = pin.location.x + 'px';
+  pinElement.style.top = pin.location.y + 'px';
+
+  return pinElement;
+};
+
 // функция отрисовки объектов
 var renderAdvert = function (advert) {
-  var mapElement = window.const.cardTemplate.cloneNode(true);
+  var mapElement = cardTemplate.cloneNode(true);
 
   mapElement.querySelector('.popup__avatar').src = advert.author.avatar;
   mapElement.querySelector('.popup__title').alt = advert.offer.title;
@@ -67,8 +90,8 @@ var renderAdvert = function (advert) {
 // создаем фрагмент дома, который будет добавлять
 
 for (var j = 0; j < adverts.length; j++) {
-  window.const.fragmentPin.appendChild(window.util.renderPin(adverts[j]));
+  window.const.fragmentPin.appendChild(renderPin(adverts[j]));
 }
 
 var filter = document.querySelector('.map__filters-container');
-window.const.mapList.insertBefore(renderAdvert(adverts[0]), filter);
+mapList.insertBefore(renderAdvert(adverts[0]), filter);
