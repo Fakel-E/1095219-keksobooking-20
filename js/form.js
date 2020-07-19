@@ -6,12 +6,17 @@ var formHeader = document.querySelector('.ad-form-header');
 var formElements = document.querySelectorAll('.ad-form__element');
 var houseFeature = document.querySelector('#housing-features');
 
+// Добавляем disabled на все элементы формы
+var addShutdown = function (arr) {
+  for (var w = 0; w < arr.length; w++) {
+    arr[w].setAttribute('disabled', 'disabled');
+  }
+};
 
 // Добавляем disabled
-window.util.addShutdown([houseFeature]);
-window.util.addShutdown([formHeader]);
-window.util.addShutdown(mapFilters);
-window.util.addShutdown(formElements);
+addShutdown([houseFeature, formHeader]);
+addShutdown(mapFilters);
+addShutdown(formElements);
 // ! завершили добавление disabled
 
 // Найдём инпуты для гостей и комнат

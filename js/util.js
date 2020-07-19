@@ -26,32 +26,10 @@
     element.classList.add(className);
     return element;
   };
-  // Добавляем disabled на все элементы формы
-  var addShutdown = function (arr) {
-    for (var w = 0; w < arr.length; w++) {
-      arr[w].setAttribute('disabled', 'disabled');
-    }
-  };
-  // Удаляем disabled со всех элементов формы
-  var cancelShutdown = function (mas) {
-    for (var w = 0; w < mas.length; w++) {
-      mas[w].removeAttribute('disabled');
-    }
-  };
+
   // Возвращение координат
   var findAdress = function (coordinateElem) {
-    return parseInt(coordinateElem.style.left, 10) + ' ' + parseInt(coordinateElem.style.top, 10);
-  };
-
-  var activateMap = function (house, head, filter, elements, map, form, elem) {
-    cancelShutdown([house]);
-    cancelShutdown([head]);
-    cancelShutdown(filter);
-    cancelShutdown(elements);
-
-    map.classList.remove('map--faded');
-    form.classList.remove('ad-form--disabled');
-    elem.appendChild(window.const.fragmentPin);
+    return parseInt(coordinateElem.style.left, 10) + ', ' + parseInt(coordinateElem.style.top, 10);
   };
 
   window.util = {
@@ -59,8 +37,6 @@
     getRandomElement: getRandomElement,
     mixArray: mixArray,
     makeElement: makeElement,
-    addShutdown: addShutdown,
     findAdress: findAdress,
-    activateMap: activateMap
   };
 }());

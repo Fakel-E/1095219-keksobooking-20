@@ -34,8 +34,6 @@
   ];
   var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
 
-  var fragmentPin = document.createDocumentFragment();
-
   window.const = {
     NUMBER_OBJ: NUMBER_OBJ,
     Price: Price,
@@ -50,8 +48,7 @@
     FEATURES_ARR: FEATURES_ARR,
     DESCCRIPTION_ARR: DESCCRIPTION_ARR,
     PHOTOS_ARR: PHOTOS_ARR,
-    NOT_VALID_REPORT: NOT_VALID_REPORT,
-    fragmentPin: fragmentPin
+    NOT_VALID_REPORT: NOT_VALID_REPORT
   };
 })();
 
