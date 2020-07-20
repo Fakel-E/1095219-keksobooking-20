@@ -5,7 +5,6 @@ var cardTemplate = document.querySelector('#card') // объявление
     .content
     .querySelector('.map__card');
 
-var imgMain = document.querySelector('.popup__photos');
 var imgTemplate = document.querySelector('#popup__img') // фотография
     .content
     .querySelector('.popup__photo');
@@ -13,7 +12,6 @@ var imgTemplate = document.querySelector('#popup__img') // фотография
 // функция отрисовки объектов
 var renderAdvert = function (advert) {
   var mapElement = cardTemplate.cloneNode(true);
-  var imgElement = imgTemplate.cloneNode(true);
 
   mapElement.querySelector('.popup__avatar').src = advert.author.avatar;
   mapElement.querySelector('.popup__title').alt = advert.offer.title;
@@ -42,8 +40,11 @@ var renderAdvert = function (advert) {
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
   // ! здесь проблема
-  imgElement.querySelector('.popup__photo').src = advert.offer.photos;
-  imgMain.appendChild(imgElement);
+  for (var i = 0; i < advert.offer.photos.length; i++) {
+    var imgElement = imgTemplate.cloneNode(true);
+    imgElement.src = advert.offer.photos[i];
+    mapElement.appendChild(imgElement);
+  }
   return mapElement;
 };
 
