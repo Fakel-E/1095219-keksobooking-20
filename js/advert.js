@@ -5,39 +5,14 @@ var cardTemplate = document.querySelector('#card') // объявление
     .content
     .querySelector('.map__card');
 
-// создаём массив объявлений с уникальными характеристиками
-var adverts = [];
-
-for (var i = 1; i <= window.const.NUMBER_OBJ; i++) {
-  var locationX = window.util.getRandomInRange(window.const.Position.X_MIN, window.const.Position.X_MAX);
-  var locationY = window.util.getRandomInRange(window.const.Position.Y_MIN, window.const.Position.Y_MAX);
-  adverts.push({
-    author: {
-      avatar: 'img/avatars/user0' + i + '.png'
-    },
-    offer: {
-      title: window.util.getRandomElement(window.const.TITLE_ARR),
-      address: locationX + ', ' + locationY,
-      price: window.util.getRandomInRange(window.const.Price.MIN, window.const.Price.MAX),
-      type: window.util.getRandomElement(window.const.TYPE_ARR),
-      rooms: window.util.getRandomInRange(window.const.Room.MIN, window.const.Room.MAX),
-      guests: window.util.getRandomInRange(window.const.Guest.MIN, window.const.Guest.MAX),
-      checkin: window.util.getRandomElement(window.const.CHECKIN_ARR),
-      checkout: window.util.getRandomElement(window.const.CHECKOUT_ARR),
-      features: window.util.mixArray(window.const.FEATURES_ARR),
-      desccription: window.util.getRandomElement(window.const.DESCCRIPTION_ARR),
-      photos: window.util.getRandomElement(window.const.PHOTOS_ARR),
-    },
-    location: {
-      x: locationX, // х - ограничено размерами блока
-      y: locationY //  y - от 130 до 630
-    }
-  });
-}
+var imgTemplate = document.querySelector('#popup__img') // фотография
+    .content
+    .querySelector('.popup__photo');
 
 // функция отрисовки объектов
 var renderAdvert = function (advert) {
   var mapElement = cardTemplate.cloneNode(true);
+  var imgMain = mapElement.querySelector('.popup__photos');
 
   mapElement.querySelector('.popup__avatar').src = advert.author.avatar;
   mapElement.querySelector('.popup__title').alt = advert.offer.title;
@@ -65,11 +40,15 @@ var renderAdvert = function (advert) {
     liElems.appendChild(featuresElement);
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
-  mapElement.querySelector('.popup__photo').src = advert.offer.photos;
+
+  for (var i = 0; i < advert.offer.photos.length; i++) {
+    var imgElement = imgTemplate.cloneNode(true);
+    imgElement.src = advert.offer.photos[i];
+    imgMain.appendChild(imgElement);
+  }
   return mapElement;
 };
 
 window.advert = {
-  adverts: adverts,
   renderAdvert: renderAdvert
 };

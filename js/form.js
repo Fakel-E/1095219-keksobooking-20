@@ -1,5 +1,6 @@
 'use strict';
 
+var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
 // Находим элементы формы
 var mapFilters = document.querySelectorAll('.map__filter');
 var formHeader = document.querySelector('.ad-form-header');
@@ -24,7 +25,7 @@ var selectRoom = document.querySelector('#room_number');
 var selectGuest = document.querySelector('#capacity');
 // Проверяем сразу при загрузке страницы
 if (selectRoom.value < selectGuest.value) {
-  selectRoom.setCustomValidity(window.const.NOT_VALID_REPORT);
+  selectRoom.setCustomValidity(NOT_VALID_REPORT);
 }
 // Слушаем изменнения в комнатах
 selectRoom.addEventListener('change', function () {
@@ -33,14 +34,14 @@ selectRoom.addEventListener('change', function () {
   if (roomsCount === 1) {
     selectGuest.value = selectRoom.value;
   } else if (roomsCount === 2 && roomsCount < guestCount) {
-    selectRoom.setCustomValidity(window.const.NOT_VALID_REPORT);
+    selectRoom.setCustomValidity(NOT_VALID_REPORT);
   } else if (roomsCount === 100) {
     selectGuest.value = 0;
   } else {
     selectGuest.setCustomValidity('');
   }
   if (guestCount > roomsCount) {
-    selectRoom.setCustomValidity(window.const.NOT_VALID_REPORT);
+    selectRoom.setCustomValidity(NOT_VALID_REPORT);
   } else {
     selectRoom.setCustomValidity('');
   }
@@ -50,7 +51,7 @@ selectGuest.addEventListener('change', function () {
   var roomsCount = Number(selectRoom.value);
   var guestCount = Number(selectGuest.value);
   if (guestCount > roomsCount) {
-    selectGuest.setCustomValidity(window.const.NOT_VALID_REPORT);
+    selectGuest.setCustomValidity(NOT_VALID_REPORT);
   } else if (roomsCount === 100 && guestCount !== 0) {
     selectGuest.setCustomValidity('Выбранное количество комнат не для гостей');
   } else {
