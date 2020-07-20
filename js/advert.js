@@ -12,6 +12,7 @@ var imgTemplate = document.querySelector('#popup__img') // фотография
 // функция отрисовки объектов
 var renderAdvert = function (advert) {
   var mapElement = cardTemplate.cloneNode(true);
+  var imgMain = mapElement.querySelector('.popup__photos');
 
   mapElement.querySelector('.popup__avatar').src = advert.author.avatar;
   mapElement.querySelector('.popup__title').alt = advert.offer.title;
@@ -39,11 +40,11 @@ var renderAdvert = function (advert) {
     liElems.appendChild(featuresElement);
   }
   mapElement.querySelector('.popup__description').textContent = advert.offer.desccription;
-  // ! здесь проблема
+
   for (var i = 0; i < advert.offer.photos.length; i++) {
     var imgElement = imgTemplate.cloneNode(true);
     imgElement.src = advert.offer.photos[i];
-    mapElement.appendChild(imgElement);
+    imgMain.appendChild(imgElement);
   }
   return mapElement;
 };
