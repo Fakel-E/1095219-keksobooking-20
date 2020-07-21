@@ -88,6 +88,8 @@ typeHouse.addEventListener('change', function () {
     formPrice.setCustomValidity('Минимальная цена для дома составляет 5000');
   } else if (typeHouse.value === 'palace' && formPrice.value < Price.palace) {
     formPrice.setCustomValidity('Минимальная цена для дворца составляет 10000');
+  } else {
+    formPrice.setCustomValidity('');
   }
 });
 
