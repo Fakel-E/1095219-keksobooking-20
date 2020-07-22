@@ -63,29 +63,29 @@ selectGuest.addEventListener('change', function () {
 var typeHouse = document.querySelector('#type');
 var formPrice = document.querySelector('#price');
 var Price = {
-  bungalo: 0,
-  flat: 1000,
-  house: 5000,
-  palace: 10000
+  BUNGALO: 0,
+  FLAT: 1000,
+  HOUSE: 5000,
+  PALACE: 10000
 };
 
 typeHouse.addEventListener('change', function () {
   var priceCount = Number(formPrice.value);
   if (typeHouse.value === 'bungalo') {
-    formPrice.placeholder = Price.bungalo;
+    formPrice.placeholder = Price.BUNGALO;
   } else if (typeHouse.value === 'flat') {
-    formPrice.placeholder = Price.flat;
+    formPrice.placeholder = Price.FLAT;
   } else if (typeHouse.value === 'house') {
-    formPrice.placeholder = Price.house;
+    formPrice.placeholder = Price.HOUSE;
   } else if (typeHouse.value === 'palace') {
-    formPrice.placeholder = Price.palace;
+    formPrice.placeholder = Price.PALACE;
   }
 
-  if (typeHouse.value === 'flat' && priceCount < Price.flat) {
+  if (typeHouse.value === 'flat' && priceCount < Price.FLAT) {
     formPrice.setCustomValidity('Минимальная цена для квартиры составляет 1000');
-  } else if (typeHouse.value === 'house' && priceCount < Price.house) {
+  } else if (typeHouse.value === 'house' && priceCount < Price.HOUSE) {
     formPrice.setCustomValidity('Минимальная цена для дома составляет 5000');
-  } else if (typeHouse.value === 'palace' && priceCount < Price.palace) {
+  } else if (typeHouse.value === 'palace' && priceCount < Price.PALACE) {
     formPrice.setCustomValidity('Минимальная цена для дворца составляет 10000');
   } else {
     formPrice.setCustomValidity('');
@@ -98,20 +98,20 @@ var timeOut = document.querySelector('#timeout');
 
 timeIn.addEventListener('change', function () {
   if (timeIn.value === '12:00') {
-    timeOut.value = '12:00';
+    timeOut.value = timeIn.value;
   } else if (timeIn.value === '13:00') {
-    timeOut.value = '13:00';
+    timeOut.value = timeIn.value;
   } else if (timeIn.value === '14:00') {
-    timeOut.value = '14:00';
+    timeOut.value = timeIn.value;
   }
 });
 
 timeOut.addEventListener('change', function () {
   if (timeOut.value === '12:00') {
-    timeIn.value = '12:00';
+    timeIn.value = timeOut.value;
   } else if (timeOut.value === '13:00') {
-    timeIn.value = '13:00';
+    timeIn.value = timeOut.value;
   } else if (timeOut.value === '14:00') {
-    timeIn.value = '14:00';
+    timeIn.value = timeOut.value;
   }
 });
