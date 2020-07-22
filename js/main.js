@@ -3,6 +3,17 @@
 var mapListElement = document.querySelector('.map__pins');
 var mainButton = document.querySelector('.map__pin--main');
 
+var activateLoad = function () {
+  window.load(function (adverts) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < adverts.length; i++) {
+      fragment.appendChild(window.pin.renderPin(adverts[i]));
+    }
+    mapListElement.appendChild(fragment);
+  }, function () {});
+};
+
 var cancelLoad = function () {
   mainButton.removeEventListener('click', function () {});
 };
@@ -11,14 +22,7 @@ mainButton.addEventListener('click', function () {
   // открываем карту по клику
   window.map.activateMap();
 
-  window.load(function (adverts) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < adverts.length; i++) {
-      fragment.appendChild(window.pin.renderPin(adverts[i]));
-    }
-    mapListElement.appendChild(fragment);
-  }, function () { });
+  activateLoad();
   cancelLoad();
 });
 

@@ -1,7 +1,5 @@
 'use strict';
 
-var mainButton = document.querySelector('.map__pin--main');
-var formAddress = document.querySelector('#address');
 var formMain = document.querySelector('.ad-form');
 
 // создаем переменную с элементом, куда копировать
@@ -29,8 +27,6 @@ var activateMap = function () {
   mapList.classList.remove('map--faded');
   formMain.classList.remove('ad-form--disabled');
 };
-
-formAddress.value = window.util.findAdress(mainButton);
 
 window.map = {
   activateMap: activateMap
