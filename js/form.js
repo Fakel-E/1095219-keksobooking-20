@@ -63,15 +63,26 @@
   // Найдём инпуты для типа жилья и цены
   var typeHouse = document.querySelector('#type');
   var formPrice = document.querySelector('#price');
+  var priceCount = Number(formPrice.value);
   var Price = {
     BUNGALO: 0,
     FLAT: 1000,
     HOUSE: 5000,
     PALACE: 10000
   };
+  var validPriceHouse = function (priceValue, houseValue) {
+    if (houseValue === 'flat' && priceValue < Price.FLAT) {
+      priceValue.setCustomValidity('Минимальная цена для квартиры составляет 1000');
+    } else if (houseValue === 'house' && priceValue < Price.HOUSE) {
+      priceValue.setCustomValidity('Минимальная цена для дома составляет 5000');
+    } else if (houseValue === 'palace' && priceValue < Price.PALACE) {
+      priceValue.setCustomValidity('Минимальная цена для дворца составляет 10000');
+    } else {
+      priceValue.setCustomValidity('');
+    }
+  };
 
   typeHouse.addEventListener('change', function () {
-    var priceCount = Number(formPrice.value);
     if (typeHouse.value === 'bungalo') {
       formPrice.placeholder = Price.BUNGALO;
     } else if (typeHouse.value === 'flat') {
@@ -82,15 +93,11 @@
       formPrice.placeholder = Price.PALACE;
     }
 
-    if (typeHouse.value === 'flat' && priceCount < Price.FLAT) {
-      formPrice.setCustomValidity('Минимальная цена для квартиры составляет 1000');
-    } else if (typeHouse.value === 'house' && priceCount < Price.HOUSE) {
-      formPrice.setCustomValidity('Минимальная цена для дома составляет 5000');
-    } else if (typeHouse.value === 'palace' && priceCount < Price.PALACE) {
-      formPrice.setCustomValidity('Минимальная цена для дворца составляет 10000');
-    } else {
-      formPrice.setCustomValidity('');
-    }
+    validPriceHouse(priceCount, typeHouse.value);
+  });
+
+  formPrice.addEventListener('change', function () {
+    validPriceHouse(priceCount, typeHouse.value);
   });
 
   // Найдём инпуты для времени заезда\выезда

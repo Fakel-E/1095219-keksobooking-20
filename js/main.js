@@ -4,7 +4,7 @@
   var mapListElement = document.querySelector('.map__pins');
   var mainButton = document.querySelector('.map__pin--main');
 
-  var onMainButton = function () {
+  var onMainButtonClick = function () {
     // открываем карту
     window.map.activateMap();
 
@@ -16,11 +16,13 @@
       }
       mapListElement.appendChild(fragment);
     }, function () {});
-    mainButton.removeEventListener('click', onMainButton);
+    mainButton.removeEventListener('click', onMainButtonClick);
   };
 
-  mainButton.addEventListener('click', onMainButton);
+  mainButton.addEventListener('click', onMainButtonClick);
 
+  var formAddress = document.querySelector('#address');
+  formAddress.value = window.util.findAdress(mainButton);
 })();
 /* var form = userDialog.querySelector('.setup-wizard-form');
 form.addEventListener('submit', function (evt) {
