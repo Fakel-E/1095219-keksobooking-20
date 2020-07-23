@@ -1,31 +1,27 @@
 'use strict';
+(function () {
 
-var mapListElement = document.querySelector('.map__pins');
-var mainButton = document.querySelector('.map__pin--main');
+  var mapListElement = document.querySelector('.map__pins');
+  var mainButton = document.querySelector('.map__pin--main');
 
-var activateLoad = function () {
-  window.load(function (adverts) {
-    var fragment = document.createDocumentFragment();
+  var onMainButton = function () {
+    // открываем карту
+    window.map.activateMap();
 
-    for (var i = 0; i < adverts.length; i++) {
-      fragment.appendChild(window.pin.renderPin(adverts[i]));
-    }
-    mapListElement.appendChild(fragment);
-  }, function () {});
-};
+    window.load(function (adverts) {
+      var fragment = document.createDocumentFragment();
 
-var cancelLoad = function () {
-  mainButton.removeEventListener('click', function () {});
-};
+      for (var i = 0; i < adverts.length; i++) {
+        fragment.appendChild(window.pin.renderPin(adverts[i]));
+      }
+      mapListElement.appendChild(fragment);
+    }, function () {});
+    mainButton.removeEventListener('click', onMainButton);
+  };
 
-mainButton.addEventListener('click', function () {
-  // открываем карту по клику
-  window.map.activateMap();
+  mainButton.addEventListener('click', onMainButton);
 
-  activateLoad();
-  cancelLoad();
-});
-
+})();
 /* var form = userDialog.querySelector('.setup-wizard-form');
 form.addEventListener('submit', function (evt) {
   window.upload(new FormData(form), function (response) {

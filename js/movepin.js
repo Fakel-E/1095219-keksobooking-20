@@ -3,6 +3,13 @@
 (function () {
   var mainButton = document.querySelector('.map__pin--main');
 
+  var StopeMove = {
+    X_MIN: 100,
+    X_MAX: 1310,
+    Y_MIN: 0,
+    Y_MAX: 654
+  };
+
   mainButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -16,7 +23,7 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      if (startCoords.x > 100 && startCoords.x <= 1310 && startCoords.y > 0 && startCoords.y <= 704) {
+      if (startCoords.x > StopeMove.X_MIN && startCoords.x <= StopeMove.X_MAX && startCoords.y > StopeMove.Y_MIN && startCoords.y <= StopeMove.Y_MAX) {
         var deltaMove = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
@@ -44,6 +51,6 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-}());
+})();
 
 
