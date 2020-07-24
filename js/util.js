@@ -39,4 +39,4 @@
     makeElement: makeElement,
     findAdress: findAdress,
   };
-}());
+})();
