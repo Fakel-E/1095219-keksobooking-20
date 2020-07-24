@@ -20,10 +20,9 @@
   };
 
   mainButton.addEventListener('click', onMainButtonClick);
-
-  var formAddress = document.querySelector('#address');
-  formAddress.value = window.util.findAdress(mainButton);
 })();
+
+
 /* var form = userDialog.querySelector('.setup-wizard-form');
 form.addEventListener('submit', function (evt) {
   window.upload(new FormData(form), function (response) {
