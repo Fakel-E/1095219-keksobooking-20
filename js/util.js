@@ -29,7 +29,12 @@
 
   // Возвращение координат
   var findAdress = function (coordinateElem) {
-    return parseInt(coordinateElem.style.left, 10) + ', ' + parseInt(coordinateElem.style.top, 10);
+    var PinSize = {
+      X: 65,
+      Y: 65
+    };
+    var coordinatePin = (parseInt(coordinateElem.style.left, 10) + (PinSize.X / 2)) + ', ' + (parseInt(coordinateElem.style.top, 10) + PinSize.Y);
+    return coordinatePin;
   };
 
   window.util = {
