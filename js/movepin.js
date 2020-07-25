@@ -1,13 +1,19 @@
 'use strict';
 
 (function () {
+
   var mainButton = document.querySelector('.map__pin--main');
 
+  var PinSize = {
+    X_HALF: 32.5,
+    Y: 65
+  };
+
   var StopeMove = {
-    X_MIN: 100,
-    X_MAX: 1310,
-    Y_MIN: 0,
-    Y_MAX: 654
+    X_MIN: 0,
+    X_MAX: 1200,
+    Y_MIN: 130,
+    Y_MAX: 630
   };
 
   mainButton.addEventListener('mousedown', function (evt) {
@@ -23,19 +29,32 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      if (startCoords.x > StopeMove.X_MIN && startCoords.x <= StopeMove.X_MAX && startCoords.y > StopeMove.Y_MIN && startCoords.y <= StopeMove.Y_MAX) {
-        var deltaMove = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
-        };
+      var deltaMove = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
 
-        startCoords = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
 
-        mainButton.style.top = (mainButton.offsetTop - deltaMove.y) + 'px';
-        mainButton.style.left = (mainButton.offsetLeft - deltaMove.x) + 'px';
+      mainButton.style.top = (mainButton.offsetTop - deltaMove.y) + 'px';
+      mainButton.style.left = (mainButton.offsetLeft - deltaMove.x) + 'px';
+
+      var postionLeft = parseInt(mainButton.style.left, 10);
+      var positionTop = parseInt(mainButton.style.top, 10);
+
+      if (postionLeft <= StopeMove.X_MIN - PinSize.X_HALF) {
+        mainButton.style.left = StopeMove.X_MIN - PinSize.X_HALF + 'px';
+      } else if (postionLeft >= StopeMove.X_MAX - PinSize.X_HALF) {
+        mainButton.style.left = StopeMove.X_MAX - PinSize.X_HALF + 'px';
+      }
+      if (positionTop <= StopeMove.Y_MIN - PinSize.Y) {
+        mainButton.style.top = StopeMove.Y_MIN - PinSize.Y + 'px';
+
+      } else if (positionTop >= StopeMove.Y_MAX) {
+        mainButton.style.top = StopeMove.Y_MAX + 'px';
       }
 
       formAddress.value = window.util.findAdress(mainButton);
@@ -51,6 +70,6 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-})();
 
+})();
 
