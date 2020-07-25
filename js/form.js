@@ -32,9 +32,7 @@
   selectRoom.addEventListener('change', function () {
     var roomsCount = Number(selectRoom.value);
     var guestCount = Number(selectGuest.value);
-    if (roomsCount === 1) {
-      selectGuest.value = selectRoom.value;
-    } else if (roomsCount === 2 && roomsCount < guestCount) {
+    if (roomsCount === 2 && roomsCount < guestCount) {
       selectRoom.setCustomValidity(NOT_VALID_REPORT);
     } else if (roomsCount === 100) {
       selectGuest.value = 0;
@@ -112,4 +110,7 @@
     timeIn.value = timeOut.value;
   });
 
+  window.form = {
+    addShutdown: addShutdown
+  };
 })();

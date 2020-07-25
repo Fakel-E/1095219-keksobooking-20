@@ -2,7 +2,7 @@
 
 (function () {
 
-  var formMain = document.querySelector('.ad-form');
+  var form = document.querySelector('.ad-form');
 
   // создаем переменную с элементом, куда копировать
   var mapList = document.querySelector('.map');
@@ -27,10 +27,19 @@
     cancelShutdown(mapFilters);
     cancelShutdown(formElements);
     mapList.classList.remove('map--faded');
-    formMain.classList.remove('ad-form--disabled');
+    form.classList.remove('ad-form--disabled');
+  };
+
+  var disabledMap = function () {
+    window.form.addShutdown([houseFeature, formHeader]);
+    window.form.addShutdown(mapFilters);
+    window.form.addShutdown(formElements);
+    mapList.classList.add('map--faded');
+    form.classList.add('ad-form--disabled');
   };
 
   window.map = {
-    activateMap: activateMap
+    activateMap: activateMap,
+    disabledMap: disabledMap
   };
 })();

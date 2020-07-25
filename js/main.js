@@ -20,14 +20,22 @@
   };
 
   mainButton.addEventListener('click', onMainButtonClick);
+
+  var form = document.querySelector('.ad-form');
+  /*
+    var pins = document.querySelectorAll('.map__pin');
+    for (var j = 0; j < pins.length; j++) {
+      pins.parentNode.removeChild();
+    }
+    response
+  */
+
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), function () {
+      window.map.disabledMap();
+      form.reset();
+    });
+    evt.preventDefault();
+  });
 })();
 
-
-/* var form = document.querySelector('.ad-form');
-form.addEventListener('submit', function (evt) {
-  window.upload(new FormData(form), function (response) {
-    console.log(response);
-
-  });
-  evt.preventDefault();
-});*/
