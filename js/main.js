@@ -20,14 +20,14 @@
   };
 
   mainButton.addEventListener('click', onMainButtonClick);
-
-  var formAddress = document.querySelector('#address');
-  formAddress.value = window.util.findAdress(mainButton);
 })();
-/* var form = userDialog.querySelector('.setup-wizard-form');
+
+
+/* var form = document.querySelector('.ad-form');
 form.addEventListener('submit', function (evt) {
   window.upload(new FormData(form), function (response) {
-    userDialog.classList.add('hidden');
+    console.log(response);
+
   });
   evt.preventDefault();
 });*/
