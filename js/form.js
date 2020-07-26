@@ -62,7 +62,7 @@
   // Найдём инпуты для типа жилья и цены
   var typeHouse = document.querySelector('#type');
   var formPrice = document.querySelector('#price');
-  var priceCount = formPrice.value;
+  var priceCount = Number(formPrice.value);
   var Price = {
     BUNGALO: 0,
     FLAT: 1000,
@@ -71,13 +71,13 @@
   };
   var validPriceHouse = function (priceValue, houseValue) {
     if (houseValue === 'flat' && priceValue < Price.FLAT) {
-      priceValue.setCustomValidity('Минимальная цена для квартиры составляет 1000');
+      formPrice.setCustomValidity('Минимальная цена для квартиры составляет ' + Price.FLAT);
     } else if (houseValue === 'house' && priceValue < Price.HOUSE) {
-      priceValue.setCustomValidity('Минимальная цена для дома составляет 5000');
+      formPrice.setCustomValidity('Минимальная цена для дома составляет ' + Price.HOUSE);
     } else if (houseValue === 'palace' && priceValue < Price.PALACE) {
-      priceValue.setCustomValidity('Минимальная цена для дворца составляет 10000');
+      formPrice.setCustomValidity('Минимальная цена для дворца составляет ' + Price.PALACE);
     } else {
-      priceValue.setCustomValidity('');
+      formPrice.setCustomValidity('');
     }
   };
 
@@ -122,15 +122,18 @@
 
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
-    window.map.disabledMap();
+    window.map.disabled();
     form.reset();
-    window.pin.deletePin('.map__pin');
+    window.pin.deleteMark('.map__pin');
     mainButton.style.left = CoordStart.X + 'px';
     mainButton.style.top = CoordStart.Y + 'px';
     formAddress.value = window.util.findAdress(mainButton);
     var mapCard = document.querySelector('.map__card');
-    mapCard.remove();
+    if (mapCard) {
+      mapCard.remove();
+    }
     resetButton.removeEventListener('click', onResetButtonClick);
+    mainButton.addEventListener('click', window.main.onMainButtonClick);
   };
   resetButton.addEventListener('click', onResetButtonClick);
 

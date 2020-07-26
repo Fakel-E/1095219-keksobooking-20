@@ -22,7 +22,7 @@
   };
 
   // Функция активации карты
-  var activateMap = function () {
+  var activate = function () {
     cancelShutdown([houseFeature, formHeader]);
     cancelShutdown(mapFilters);
     cancelShutdown(formElements);
@@ -30,7 +30,7 @@
     form.classList.remove('ad-form--disabled');
   };
 
-  var disabledMap = function () {
+  var disabled = function () {
     window.form.addShutdown([houseFeature, formHeader]);
     window.form.addShutdown(mapFilters);
     window.form.addShutdown(formElements);
@@ -39,7 +39,7 @@
   };
 
   window.map = {
-    activateMap: activateMap,
-    disabledMap: disabledMap
+    activate: activate,
+    disabled: disabled
   };
 })();

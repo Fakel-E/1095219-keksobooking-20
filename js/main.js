@@ -7,13 +7,13 @@
 
   var onMainButtonClick = function () {
     // открываем карту
-    window.map.activateMap();
+    window.map.activate();
 
     window.load(function (adverts) {
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < adverts.length; i++) {
-        fragment.appendChild(window.pin.renderPin(adverts[i]));
+        fragment.appendChild(window.pin.renderMark(adverts[i]));
       }
       mapListElement.appendChild(fragment);
     }, function () {});
@@ -24,12 +24,17 @@
 
   form.addEventListener('submit', function (evt) {
     window.upload(new FormData(form), function () {
-      window.map.disabledMap();
+      window.map.disabled();
       form.reset();
       window.pin.deletePin('.map__pin');
+      mainButton.addEventListener('click', onMainButtonClick);
     });
     evt.preventDefault();
   });
   mainButton.addEventListener('click', onMainButtonClick);
+
+  window.main = {
+    onMainButtonClick: onMainButtonClick
+  };
 })();
 
