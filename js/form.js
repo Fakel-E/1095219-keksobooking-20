@@ -4,6 +4,7 @@
   var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
   // Находим элементы формы
   var mapFilters = document.querySelectorAll('.map__filter');
+  var form = document.querySelector('.ad-form');
   var formHeader = document.querySelector('.ad-form-header');
   var formElements = document.querySelectorAll('.ad-form__element');
   var houseFeature = document.querySelector('#housing-features');
@@ -61,7 +62,7 @@
   // Найдём инпуты для типа жилья и цены
   var typeHouse = document.querySelector('#type');
   var formPrice = document.querySelector('#price');
-  var priceCount = Number(formPrice.value);
+  var priceCount = formPrice.value;
   var Price = {
     BUNGALO: 0,
     FLAT: 1000,
@@ -109,6 +110,29 @@
   timeOut.addEventListener('change', function () {
     timeIn.value = timeOut.value;
   });
+
+  var CoordStart = {
+    X: 570,
+    Y: 375
+  };
+
+  var mainButton = document.querySelector('.map__pin--main');
+  var resetButton = document.querySelector('.ad-form__reset');
+  var formAddress = document.querySelector('#address');
+
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    window.map.disabledMap();
+    form.reset();
+    window.pin.deletePin('.map__pin');
+    mainButton.style.left = CoordStart.X + 'px';
+    mainButton.style.top = CoordStart.Y + 'px';
+    formAddress.value = window.util.findAdress(mainButton);
+    var mapCard = document.querySelector('.map__card');
+    mapCard.remove();
+    resetButton.removeEventListener('click', onResetButtonClick);
+  };
+  resetButton.addEventListener('click', onResetButtonClick);
 
   window.form = {
     addShutdown: addShutdown

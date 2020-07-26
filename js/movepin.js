@@ -5,7 +5,7 @@
   var mainButton = document.querySelector('.map__pin--main');
 
   var PinSize = {
-    X_HALF: 32.5,
+    X_HALF: 33,
     Y: 65
   };
 

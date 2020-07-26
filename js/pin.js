@@ -25,7 +25,17 @@
     return pinElement;
   };
 
+  var deletePin = function (className) {
+    var pins = document.querySelectorAll(className);
+    pins.forEach(function (pin, i) {
+      if (i > 0) {
+        pin.remove();
+      }
+    });
+  };
+
   window.pin = {
-    renderPin: renderPin
+    renderPin: renderPin,
+    deletePin: deletePin
   };
 })();

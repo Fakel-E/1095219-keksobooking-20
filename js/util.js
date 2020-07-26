@@ -30,7 +30,7 @@
   // Возвращение координат
   var findAdress = function (coordinateElem) {
     var PinSize = {
-      X_HALF: 32.5,
+      X_HALF: 33,
       Y: 65
     };
     var coordinatePin = (parseInt(coordinateElem.style.left, 10) + (PinSize.X_HALF)) + ', ' + (parseInt(coordinateElem.style.top, 10) + PinSize.Y);

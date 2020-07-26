@@ -14,6 +14,9 @@
   window.upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
+    var removeElem = function (elem) {
+      elem.remove();
+    };
 
     xhr.addEventListener('load', function () {
       onSuccess(xhr.response);
@@ -21,24 +24,24 @@
         var normalSend = sendSuccess.cloneNode(true);
         mapListElement.appendChild(normalSend);
         normalSend.addEventListener('click', function () {
-          normalSend.remove();
+          removeElem(normalSend);
         });
         document.addEventListener('keydown', function (evt) {
           if (evt.key === 'Escape') {
             evt.preventDefault();
-            normalSend.remove();
+            removeElem(normalSend);
           }
         });
       } else {
         var badSend = sendError.cloneNode(true);
         mapListElement.appendChild(badSend);
         badSend.addEventListener('click', function () {
-          badSend.remove();
+          removeElem(badSend);
         });
         document.addEventListener('keydown', function (evt) {
           if (evt.key === 'Escape') {
             evt.preventDefault();
-            badSend.remove();
+            removeElem(badSend);
           }
         });
       }
