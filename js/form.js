@@ -4,6 +4,7 @@
   var NOT_VALID_REPORT = 'Количество гостей больше, чем количество комнат';
   // Находим элементы формы
   var mapFilters = document.querySelectorAll('.map__filter');
+  var form = document.querySelector('.ad-form');
   var formHeader = document.querySelector('.ad-form-header');
   var formElements = document.querySelectorAll('.ad-form__element');
   var houseFeature = document.querySelector('#housing-features');
@@ -32,9 +33,7 @@
   selectRoom.addEventListener('change', function () {
     var roomsCount = Number(selectRoom.value);
     var guestCount = Number(selectGuest.value);
-    if (roomsCount === 1) {
-      selectGuest.value = selectRoom.value;
-    } else if (roomsCount === 2 && roomsCount < guestCount) {
+    if (roomsCount === 2 && roomsCount < guestCount) {
       selectRoom.setCustomValidity(NOT_VALID_REPORT);
     } else if (roomsCount === 100) {
       selectGuest.value = 0;
@@ -72,13 +71,13 @@
   };
   var validPriceHouse = function (priceValue, houseValue) {
     if (houseValue === 'flat' && priceValue < Price.FLAT) {
-      priceValue.setCustomValidity('Минимальная цена для квартиры составляет 1000');
+      formPrice.setCustomValidity('Минимальная цена для квартиры составляет ' + Price.FLAT);
     } else if (houseValue === 'house' && priceValue < Price.HOUSE) {
-      priceValue.setCustomValidity('Минимальная цена для дома составляет 5000');
+      formPrice.setCustomValidity('Минимальная цена для дома составляет ' + Price.HOUSE);
     } else if (houseValue === 'palace' && priceValue < Price.PALACE) {
-      priceValue.setCustomValidity('Минимальная цена для дворца составляет 10000');
+      formPrice.setCustomValidity('Минимальная цена для дворца составляет ' + Price.PALACE);
     } else {
-      priceValue.setCustomValidity('');
+      formPrice.setCustomValidity('');
     }
   };
 
@@ -112,4 +111,33 @@
     timeIn.value = timeOut.value;
   });
 
+  var CoordStart = {
+    X: 570,
+    Y: 375
+  };
+
+  var mainButton = document.querySelector('.map__pin--main');
+  var resetButton = document.querySelector('.ad-form__reset');
+  var formAddress = document.querySelector('#address');
+
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    window.map.disabled();
+    form.reset();
+    window.pin.deleteMark('.map__pin');
+    mainButton.style.left = CoordStart.X + 'px';
+    mainButton.style.top = CoordStart.Y + 'px';
+    formAddress.value = window.util.findAdress(mainButton);
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
+    }
+    resetButton.removeEventListener('click', onResetButtonClick);
+    mainButton.addEventListener('click', window.main.onMainButtonClick);
+  };
+  resetButton.addEventListener('click', onResetButtonClick);
+
+  window.form = {
+    addShutdown: addShutdown
+  };
 })();

@@ -12,7 +12,7 @@
       .querySelector('.popup__photo');
 
   // функция отрисовки объектов
-  var renderAdvert = function (advert) {
+  var renderCard = function (advert) {
     var popup = cardTemplate.cloneNode(true);
     var imgMain = popup.querySelector('.popup__photos');
     var mapCard = document.querySelector('.map__card');
@@ -66,6 +66,6 @@
   };
 
   window.advert = {
-    renderAdvert: renderAdvert
+    renderCard: renderCard
   };
 })();

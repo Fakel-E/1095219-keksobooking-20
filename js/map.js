@@ -2,7 +2,7 @@
 
 (function () {
 
-  var formMain = document.querySelector('.ad-form');
+  var form = document.querySelector('.ad-form');
 
   // создаем переменную с элементом, куда копировать
   var mapList = document.querySelector('.map');
@@ -22,15 +22,24 @@
   };
 
   // Функция активации карты
-  var activateMap = function () {
+  var activate = function () {
     cancelShutdown([houseFeature, formHeader]);
     cancelShutdown(mapFilters);
     cancelShutdown(formElements);
     mapList.classList.remove('map--faded');
-    formMain.classList.remove('ad-form--disabled');
+    form.classList.remove('ad-form--disabled');
+  };
+
+  var disabled = function () {
+    window.form.addShutdown([houseFeature, formHeader]);
+    window.form.addShutdown(mapFilters);
+    window.form.addShutdown(formElements);
+    mapList.classList.add('map--faded');
+    form.classList.add('ad-form--disabled');
   };
 
   window.map = {
-    activateMap: activateMap
+    activate: activate,
+    disabled: disabled
   };
 })();
