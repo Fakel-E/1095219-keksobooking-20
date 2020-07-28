@@ -25,7 +25,7 @@
     return pinElement;
   };
 
-  var deleteMark = function (className) {
+  var deleteMarks = function (className) {
     var pins = document.querySelectorAll(className);
     pins.forEach(function (pin) {
       if (!pin.classList.contains('map__pin--main')) {
@@ -34,8 +34,37 @@
     });
   };
 
+  var renderMarks = function (adverts) {
+    var fragment = document.createDocumentFragment();
+    var mapListElement = document.querySelector('.map__pins');
+    var advertsLengths = 5;
+
+    // ! тернарный оператор
+    /* function getAdvertsLength(numberAdverts) {
+      console.log(numberAdverts);
+      return numberAdverts >= advertsLengths ? advertsLengths : numberAdverts;
+    }
+    getAdvertsLength(adverts.length);
+    console.log(adverts.length);
+    for (var i = 0; i < adverts.length; i++) {
+      fragment.appendChild(window.pin.renderMark(adverts[i]));
+    }*/
+
+    if (adverts.length <= advertsLengths) {
+      for (var i = 0; i < adverts.length; i++) {
+        fragment.appendChild(window.pin.renderMark(adverts[i]));
+      }
+    } else {
+      for (var j = 0; j < advertsLengths; j++) {
+        fragment.appendChild(window.pin.renderMark(adverts[j]));
+      }
+    }
+    mapListElement.appendChild(fragment);
+  };
+
   window.pin = {
     renderMark: renderMark,
-    deleteMark: deleteMark
+    renderMarks: renderMarks,
+    deleteMarks: deleteMarks
   };
 })();
