@@ -21,11 +21,15 @@
   house.addEventListener('change', function () {
     var newAdverts = window.filter.houseType(arrayAdverts);
     var mapCard = document.querySelector('.map__card');
+    window.pin.deleteMarks('.map__pin');
+    if (house.value !== 'any') {
+      window.pin.renderMarks(newAdverts);
+    } else {
+      window.pin.renderMarks(arrayAdverts);
+    }
     if (mapCard) {
       mapCard.remove();
     }
-    window.pin.deleteMarks('.map__pin');
-    window.pin.renderMarks(newAdverts);
   });
 
 
