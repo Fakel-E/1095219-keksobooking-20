@@ -1,32 +1,44 @@
 'use strict';
 (function () {
 
-  var mapListElement = document.querySelector('.map__pins');
-  var mainButton = document.querySelector('.map__pin--main');
 
+  var mainButton = document.querySelector('.map__pin--main');
+  var mapFilters = document.querySelector('.map__filters');
+  var house = mapFilters.querySelector('#housing-type');
+  var arrayAdverts = [];
 
   var onMainButtonClick = function () {
     // открываем карту
     window.map.activate();
 
     window.load(function (adverts) {
-      var fragment = document.createDocumentFragment();
-
-      for (var i = 0; i < adverts.length; i++) {
-        fragment.appendChild(window.pin.renderMark(adverts[i]));
-      }
-      mapListElement.appendChild(fragment);
+      window.pin.renderMarks(adverts);
+      arrayAdverts = adverts;
     }, function () {});
     mainButton.removeEventListener('click', onMainButtonClick);
   };
 
-  var form = document.querySelector('.ad-form');
+  house.addEventListener('change', function () {
+    var newAdverts = window.filter.houseType(arrayAdverts);
+    var mapCard = document.querySelector('.map__card');
+    window.pin.deleteMarks('.map__pin');
+    if (house.value !== 'any') {
+      window.pin.renderMarks(newAdverts);
+    } else {
+      window.pin.renderMarks(arrayAdverts);
+    }
+    if (mapCard) {
+      mapCard.remove();
+    }
+  });
 
+
+  var form = document.querySelector('.ad-form');
   form.addEventListener('submit', function (evt) {
     window.upload(new FormData(form), function () {
       window.map.disabled();
       form.reset();
-      window.pin.deletePin('.map__pin');
+      window.pin.deleteMarks('.map__pin');
       mainButton.addEventListener('click', onMainButtonClick);
     });
     evt.preventDefault();
